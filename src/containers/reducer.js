@@ -1,5 +1,7 @@
-import { authorizationReducer } from "./Authorization/reducer";
+import { authorizationReducer } from "containers/Authorization/reducer";
 
 export const trelloDepsGraphReducer = {
-  authorizationReducer,
+  authorizationReducer
 };
+
+export default { trelloDepsGraphReducer };

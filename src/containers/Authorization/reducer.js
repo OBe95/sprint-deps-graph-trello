@@ -12,3 +12,5 @@ export const authorizationReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default { authorizationReducer };

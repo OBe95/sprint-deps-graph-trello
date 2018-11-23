@@ -1,14 +1,13 @@
-import { SET_TRELLO_TOKEN, RESET_TRELLO_TOKEN } from './constants';
+import {
+  SET_TRELLO_TOKEN,
+  RESET_TRELLO_TOKEN
+} from "containers/Authorization/constants";
 
-export const setTrelloToken = (token) => {
-  return {
-    type: SET_TRELLO_TOKEN,
-    token,
-  }
-};
+export const setTrelloToken = token => ({
+  type: SET_TRELLO_TOKEN,
+  token
+});
 
-export const resetTrelloToken = () => {
-  return {
-    type: RESET_TRELLO_TOKEN,
-  }
-};
+export const resetTrelloToken = () => ({
+  type: RESET_TRELLO_TOKEN
+});

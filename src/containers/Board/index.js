@@ -1,10 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
 
-const Authorization = () => {
-  return (
-    <span>Home</span>
-  );
-};
+const Authorization = () => <span>Home</span>;
 
 export default connect()(Authorization);

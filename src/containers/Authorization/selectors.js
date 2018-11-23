@@ -1,9 +1,11 @@
-import { createSelector } from 'reselect'
+import { createSelector } from "reselect";
 
-const getAuthorizationState = (state) => state.authorizationReducer;
+const getAuthorizationState = state => state.authorizationReducer;
 
-export const makeSelectTrelloToken = () => {
-  return createSelector([getAuthorizationState], authorizationState => authorizationState.trelloToken)
-};
+export const makeSelectTrelloToken = () =>
+  createSelector(
+    [getAuthorizationState],
+    authorizationState => authorizationState.trelloToken
+  );
 
 export default { makeSelectTrelloToken };
