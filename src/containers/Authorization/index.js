@@ -2,24 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { setTrelloToken } from "containers/Authorization/actions";
-import { Trello, LOCAL_STORAGE_KEY, config } from "utils/Trello";
-
-const onClick = dispatch => () => {
-  Trello.authorize({
-    ...config,
-    success() {
-      // TODO: show welcome toaster
-      dispatch(setTrelloToken(localStorage.getItem(LOCAL_STORAGE_KEY)));
-    },
-    error() {
-      // TODO: show error toaster
-    }
-  });
-};
+import { askAuthorization } from "containers/Authorization/actions";
 
 const Authorization = ({ dispatch }) => (
-  <button type="button" onClick={onClick(dispatch)}>
+  <button type="button" onClick={() => dispatch(askAuthorization())}>
     Authorize
   </button>
 );
