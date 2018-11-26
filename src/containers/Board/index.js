@@ -15,11 +15,11 @@ import SelectLabels from "components/Board/SelectLabels";
 
 const Board = ({ dispatch, boards, labels }) => {
   const [selectedBoard, setSelectedBoard] = useState({});
-  const [selectedLabels, setSelectedLabels] = useState([]);
+  const [selectedLabel, setSelectedLabel] = useState({});
 
   const handleSelectedBoardChange = board => {
     setSelectedBoard(board);
-    setSelectedLabels([]);
+    setSelectedLabel({});
     dispatch(resetLabels());
 
     if (board && board.value) {
@@ -45,8 +45,8 @@ const Board = ({ dispatch, boards, labels }) => {
       />
       <SelectLabels
         labels={labels || []}
-        selectedLabels={selectedLabels}
-        handleSelectedLabelsChange={setSelectedLabels}
+        selectedLabel={selectedLabel}
+        handleSelectedLabelChange={setSelectedLabel}
       />
     </Fragment>
   );

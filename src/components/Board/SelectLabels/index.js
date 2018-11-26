@@ -4,46 +4,55 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import chroma from "chroma-js";
 
-const DEFAULT_COLOR = "lightblue";
+import COLORS from "components/Board/constants";
 
-const contrastAdapt = color =>
-  chroma.contrast(color, "white") > 2 ? "white" : "black";
+const dot = (color = COLORS.GREY) => ({
+  alignItems: "center",
+  display: "flex",
+
+  ":before": {
+    backgroundColor: color,
+    borderRadius: 10,
+    content: '" "',
+    display: "block",
+    marginRight: 8,
+    height: 10,
+    width: 10
+  }
+});
+
+const adaptContrast = color =>
+  chroma.contrast(color, COLORS.WHITE) > 2 ? COLORS.WHITE : COLORS.BLACK;
+
+const optionBackgroundColor = (data, isSelected, isFocused) => {
+  const color = chroma(data.color);
+  if (isSelected) return data.color;
+  return isFocused ? color.alpha(0.1).css() : null;
+};
 
 const colourStyles = {
-  control: styles => ({ ...styles, backgroundColor: "white" }),
+  control: styles => ({ ...styles, backgroundColor: COLORS.WHITE }),
   option: (styles, { data, isFocused, isSelected }) => {
     const color = chroma(data.color);
     return {
       ...styles,
-      backgroundColor: isFocused
-        ? chroma("gray")
-            .alpha(0.1)
-            .css()
-        : null,
-      color: isSelected ? contrastAdapt(color) : data.color
+      backgroundColor: optionBackgroundColor(data, isSelected, isFocused),
+      color: isSelected ? adaptContrast(color) : data.color
     };
   },
-  multiValue: (styles, { data }) => ({
-    ...styles,
-    backgroundColor: data.color
-  }),
-  multiValueLabel: (styles, { data }) => ({
-    ...styles,
-    color: contrastAdapt(chroma(data.color))
-  }),
-  multiValueRemove: (styles, { data }) => ({
-    ...styles,
-    color: contrastAdapt(chroma(data.color))
-  })
+  input: styles => ({ ...styles, ...dot() }),
+  placeholder: styles => ({ ...styles, ...dot() }),
+  singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
 };
 
 const formatColor = color => {
+  let allowedColor = null;
   try {
-    chroma(color);
-    return color;
+    allowedColor = chroma(color);
   } catch (err) {
-    return DEFAULT_COLOR;
+    allowedColor = chroma(COLORS.LABELS_DEFAULT_COLOR);
   }
+  return allowedColor.darken().hex();
 };
 
 const formatLabels = labels =>
@@ -57,25 +66,20 @@ const formatLabels = labels =>
         }))
     : [];
 
-const SelectLabels = ({
-  labels,
-  selectedLabels,
-  handleSelectedLabelsChange
-}) => (
+const SelectLabels = ({ labels, selectedLabel, handleSelectedLabelChange }) => (
   <Select
-    closeMenuOnSelect={false}
+    label="Single select"
     isDisabled={labels.length === 0}
-    isMulti
     options={formatLabels(labels)}
     styles={colourStyles}
-    value={selectedLabels}
-    onChange={handleSelectedLabelsChange}
+    value={selectedLabel}
+    onChange={handleSelectedLabelChange}
   />
 );
 
 SelectLabels.defaultProps = {
   labels: [],
-  selectedLabels: []
+  selectedLabel: {}
 };
 
 SelectLabels.propTypes = {
@@ -86,14 +90,12 @@ SelectLabels.propTypes = {
       color: PropTypes.string
     })
   ),
-  selectedLabels: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      color: PropTypes.string
-    })
-  ),
-  handleSelectedLabelsChange: PropTypes.func.isRequired
+  selectedLabel: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    color: PropTypes.string
+  }),
+  handleSelectedLabelChange: PropTypes.func.isRequired
 };
 
 export default SelectLabels;

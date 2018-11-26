@@ -13,6 +13,8 @@ module.exports = {
   },
   API_URLS: {
     BOARDS: "/members/me/boards?fields=name",
-    labels: boardId => `/boards/${boardId}/labels?fields=name,color`
+    labels: boardId => `/boards/${boardId}/labels?fields=name,color`,
+    cards: (boardId, labelName) =>
+      `/search?query=label:"${labelName}"&idBoards=${boardId}&card_fields=name`
   }
 };
