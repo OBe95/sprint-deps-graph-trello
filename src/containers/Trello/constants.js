@@ -11,11 +11,8 @@ module.exports = {
     expiration: "1day",
     response_type: "token"
   },
-  APIS: {
+  API_URLS: {
     BOARDS: "/members/me/boards?fields=name",
     labels: boardId => `/boards/${boardId}/labels?fields=name,color`
-  },
-  setToken(token) {
-    this.Trello.setToken(token);
   }
 };

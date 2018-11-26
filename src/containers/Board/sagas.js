@@ -2,15 +2,22 @@ import { put, takeLatest, all } from "redux-saga/effects";
 
 import { FETCH_BOARDS, FETCH_LABELS } from "containers/Board/constants";
 import { setBoards, setLabels } from "containers/Board/actions";
-import { Trello, APIS } from "constants/Trello";
+import { Trello, API_URLS } from "containers/Trello/constants";
+import { errorHandler } from "containers/Trello/helper";
 
 function* fetchBoards() {
-  const boards = yield Trello.get(APIS.BOARDS)
+  let error = null;
+  const boards = yield Trello.get(API_URLS.BOARDS)
     .then(_boards => _boards)
-    .catch(error => {
-      console.log("Error fetching boards...", error);
+    .catch(_error => {
+      error = _error;
       return [];
     });
+
+  if (error) {
+    yield* errorHandler(error);
+  }
+
   yield put(setBoards(boards));
 }
 function* fetchBoardsSaga() {
@@ -18,12 +25,18 @@ function* fetchBoardsSaga() {
 }
 
 function* fetchLabels(action) {
-  const labels = yield Trello.get(APIS.labels(action.boardId))
+  let error = null;
+  const labels = yield Trello.get(API_URLS.labels(action.boardId))
     .then(_labels => _labels)
-    .catch(error => {
-      console.log("Error fetching labels...", error);
+    .catch(_error => {
+      error = _error;
       return [];
     });
+
+  if (error) {
+    yield* errorHandler(error);
+  }
+
   yield put(setLabels(labels));
 }
 function* fetchLabelsSaga() {

@@ -1,15 +1,15 @@
 import { put, takeLatest, all } from "redux-saga/effects";
 
 import { ASK_AUTHORIZATION } from "containers/Authorization/constants";
-import { setTrelloToken } from "containers/Authorization/actions";
-import { Trello, LOCAL_STORAGE_KEY, CONFIG } from "constants/Trello";
+import { Trello, CONFIG } from "containers/Trello/constants";
+import { getToken } from "containers/Trello/helper";
 
 function askAuthorization() {
   Trello.authorize({
     ...CONFIG,
     success() {
       // TODO: show welcome toaster
-      put(setTrelloToken(localStorage.getItem(LOCAL_STORAGE_KEY)));
+      put(getToken());
     },
     error() {
       // TODO: show error toaster
