@@ -3,5 +3,6 @@ export default {
   GREY: "#CCC",
   WHITE: "#FFF",
   BLACK: "#000",
-  SELECTED_BOARD: "#4B83AE"
+  SELECTED_BOARD: "#4B83AE",
+  ERROR: "#ff6670"
 };

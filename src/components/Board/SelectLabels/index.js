@@ -30,8 +30,12 @@ const optionBackgroundColor = (data, isSelected, isFocused) => {
   return isFocused ? color.alpha(0.1).css() : null;
 };
 
-const colourStyles = {
-  control: styles => ({ ...styles, backgroundColor: COLORS.WHITE }),
+const colourStyles = error => ({
+  control: styles => ({
+    ...styles,
+    backgroundColor: COLORS.WHITE,
+    borderColor: error ? COLORS.ERROR : styles.borderColor
+  }),
   option: (styles, { data, isFocused, isSelected }) => {
     const color = chroma(data.color);
     return {
@@ -43,7 +47,7 @@ const colourStyles = {
   input: styles => ({ ...styles, ...dot() }),
   placeholder: styles => ({ ...styles, ...dot() }),
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) })
-};
+});
 
 const formatColor = color => {
   let allowedColor = null;
@@ -66,20 +70,29 @@ const formatLabels = labels =>
         }))
     : [];
 
-const SelectLabels = ({ labels, selectedLabel, handleSelectedLabelChange }) => (
-  <Select
-    label="Single select"
-    isDisabled={labels.length === 0}
-    options={formatLabels(labels)}
-    styles={colourStyles}
-    value={selectedLabel}
-    onChange={handleSelectedLabelChange}
-  />
+const SelectLabels = ({
+  labels,
+  selectedLabel,
+  handleSelectedLabelChange,
+  error
+}) => (
+  <div style={{ margin: "10px 0" }}>
+    <Select
+      label="Single select"
+      isDisabled={labels.length === 0}
+      options={formatLabels(labels)}
+      styles={colourStyles(error)}
+      value={selectedLabel}
+      onChange={handleSelectedLabelChange}
+    />
+    {error && <span style={{ color: COLORS.ERROR }}>{error}</span>}
+  </div>
 );
 
 SelectLabels.defaultProps = {
   labels: [],
-  selectedLabel: {}
+  selectedLabel: {},
+  error: null
 };
 
 SelectLabels.propTypes = {
@@ -95,6 +108,7 @@ SelectLabels.propTypes = {
     name: PropTypes.string,
     color: PropTypes.string
   }),
+  error: PropTypes.string,
   handleSelectedLabelChange: PropTypes.func.isRequired
 };
 

@@ -14,4 +14,28 @@ export const makeSelectLabels = () =>
     boardState => boardState.labels
   );
 
-export default { makeSelectBoards, makeSelectLabels };
+export const makeSelectSelectedBoard = () =>
+  createSelector(
+    [getBoardState],
+    boardState => boardState.selectedBoard
+  );
+
+export const makeSelectSelectedLabel = () =>
+  createSelector(
+    [getBoardState],
+    boardState => boardState.selectedLabel
+  );
+
+export const makeSelectCards = () =>
+  createSelector(
+    [getBoardState],
+    boardState => boardState.cards
+  );
+
+export default {
+  makeSelectBoards,
+  makeSelectLabels,
+  makeSelectSelectedBoard,
+  makeSelectSelectedLabel,
+  makeSelectCards
+};

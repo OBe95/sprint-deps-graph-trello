@@ -21,30 +21,43 @@ const optionBackgroundColor = (isSelected, isFocused) => {
     : null;
 };
 
-const colourStyles = {
-  control: styles => ({ ...styles, backgroundColor: COLORS.WHITE }),
+const colourStyles = error => ({
+  control: styles => ({
+    ...styles,
+    backgroundColor: COLORS.WHITE,
+    borderColor: error ? COLORS.ERROR : styles.borderColor
+  }),
   option: (styles, { isFocused, isSelected }) => ({
     ...styles,
     backgroundColor: optionBackgroundColor(isSelected, isFocused),
     color: isFocused || isSelected ? COLORS.WHITE : COLORS.BLACK
   })
-};
+});
 
-const SelectBoard = ({ boards, selectedBoard, handleSelectedBoardChange }) => (
-  <Select
-    isDisabled={boards.length === 0}
-    isClearable
-    isSearchable
-    styles={colourStyles}
-    options={formatBoards(boards)}
-    value={selectedBoard}
-    onChange={handleSelectedBoardChange}
-  />
+const SelectBoard = ({
+  boards,
+  selectedBoard,
+  handleSelectedBoardChange,
+  error
+}) => (
+  <div style={{ margin: "10px 0" }}>
+    <Select
+      isDisabled={boards.length === 0}
+      isClearable
+      isSearchable
+      styles={colourStyles(error)}
+      options={formatBoards(boards)}
+      value={selectedBoard}
+      onChange={handleSelectedBoardChange}
+    />
+    {error && <span style={{ color: COLORS.ERROR }}>{error}</span>}
+  </div>
 );
 
 SelectBoard.defaultProps = {
   boards: [],
-  selectedBoard: {}
+  selectedBoard: {},
+  error: null
 };
 
 SelectBoard.propTypes = {
@@ -58,6 +71,7 @@ SelectBoard.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string
   }),
+  error: PropTypes.string,
   handleSelectedBoardChange: PropTypes.func.isRequired
 };
 
