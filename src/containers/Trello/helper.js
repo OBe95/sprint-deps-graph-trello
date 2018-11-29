@@ -10,6 +10,7 @@ export const setToken = token => {
 export const getToken = () => Trello.token();
 
 export const resetToken = () => {
+  Trello.setToken(null);
   localStorage.removeItem(LOCAL_STORAGE_KEY);
 };
 
