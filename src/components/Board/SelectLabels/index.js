@@ -6,7 +6,7 @@ import chroma from "chroma-js";
 
 import COLORS from "components/Board/constants";
 
-const dot = (color = COLORS.GREY) => ({
+const dot = (color = COLORS.SECONDARY_LIGHT_BG) => ({
   alignItems: "center",
   display: "flex",
 
@@ -22,7 +22,7 @@ const dot = (color = COLORS.GREY) => ({
 });
 
 const adaptContrast = color =>
-  chroma.contrast(color, COLORS.WHITE) > 2 ? COLORS.WHITE : COLORS.BLACK;
+  chroma.contrast(color, COLORS.LIGHT) > 2 ? COLORS.LIGHT : COLORS.DARK;
 
 const optionBackgroundColor = (data, isSelected, isFocused) => {
   const color = chroma(data.color);
@@ -33,7 +33,7 @@ const optionBackgroundColor = (data, isSelected, isFocused) => {
 const colourStyles = error => ({
   control: styles => ({
     ...styles,
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: COLORS.LIGHT,
     borderColor: error ? COLORS.ERROR : styles.borderColor
   }),
   option: (styles, { data, isFocused, isSelected }) => {

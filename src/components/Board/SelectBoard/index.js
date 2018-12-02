@@ -13,9 +13,9 @@ const formatBoards = boards =>
   }));
 
 const optionBackgroundColor = (isSelected, isFocused) => {
-  if (isSelected) return COLORS.SELECTED_BOARD;
+  if (isSelected) return COLORS.PRIMARY_LIGHT_BG;
   return isFocused
-    ? chroma(COLORS.SELECTED_BOARD)
+    ? chroma(COLORS.PRIMARY_LIGHT_BG)
         .alpha(0.5)
         .css()
     : null;
@@ -24,13 +24,13 @@ const optionBackgroundColor = (isSelected, isFocused) => {
 const colourStyles = error => ({
   control: styles => ({
     ...styles,
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: COLORS.LIGHT,
     borderColor: error ? COLORS.ERROR : styles.borderColor
   }),
   option: (styles, { isFocused, isSelected }) => ({
     ...styles,
     backgroundColor: optionBackgroundColor(isSelected, isFocused),
-    color: isFocused || isSelected ? COLORS.WHITE : COLORS.BLACK
+    color: isFocused || isSelected ? COLORS.LIGHT : COLORS.DARK
   })
 });
 

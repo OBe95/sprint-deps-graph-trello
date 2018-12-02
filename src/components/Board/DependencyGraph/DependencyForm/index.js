@@ -5,6 +5,8 @@ import Button from "@material-ui/core/Button";
 
 import Select from "react-select";
 
+import COLORS from "components/Board/constants";
+
 const styles = {
   container: {
     height: "40px",
@@ -20,7 +22,9 @@ const styles = {
     margin: "0 10px"
   },
   button: {
-    marginLeft: "10px"
+    marginLeft: "10px",
+    backgroundColor: COLORS.SECONDARY_BG,
+    color: COLORS.SECONDARY_COLOR
   }
 };
 
@@ -63,12 +67,7 @@ const DependencyForm = ({
         onChange={setSelectedSources}
       />
     </div>
-    <Button
-      style={styles.button}
-      onClick={handleSubmit}
-      variant="contained"
-      color="primary"
-    >
+    <Button style={styles.button} onClick={handleSubmit}>
       Add
     </Button>
   </div>

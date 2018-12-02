@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import isEmpty from "lodash/isEmpty";
 
 import COLORS from "components/Board/constants";
+import Logout from "components/Board/DependencyGraph/DependencyForm/icons/Logout";
 
 const styles = {
   container: {
@@ -14,8 +15,8 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: COLORS.HEADER_BG,
-    color: COLORS.WHITE
+    backgroundColor: COLORS.PRIMARY_BG,
+    color: COLORS.PRIMARY_COLOR
   },
   info: {
     display: "flex",
@@ -30,7 +31,7 @@ const styles = {
   label: {
     textTransform: "uppercase",
     paddingRight: "10px",
-    borderRight: `1px solid ${COLORS.WHITE}`
+    borderRight: `1px solid ${COLORS.PRIMARY_COLOR}`
   },
   dot: color => ({
     width: "15px",
@@ -41,46 +42,67 @@ const styles = {
   }),
   button: {
     height: "40px",
-    backgroundColor: COLORS.PRIMARY_BG,
-    color: COLORS.PRIMARY_COLOR,
-    borderRadius: 0,
-    borderRight: `1px solid ${COLORS.WHITE}`,
-    borderLeft: `1px solid ${COLORS.WHITE}`
+    backgroundColor: COLORS.SECONDARY_BG,
+    color: COLORS.SECONDARY_COLOR,
+    borderRight: `1px solid ${COLORS.PRIMARY_COLOR}`,
+    borderLeft: `1px solid ${COLORS.PRIMARY_COLOR}`
   },
   user: {
+    margin: "0 5px",
     display: "flex",
     flexDirection: "row",
     alignItems: "center"
   },
   initials: {
     padding: "3px",
-    marginLeft: "5px",
-    backgroundColor: COLORS.WHITE,
-    color: COLORS.PRIMARY_COLOR,
+    marginRight: "5px",
+    backgroundColor: COLORS.PRIMARY_COLOR,
+    color: COLORS.PRIMARY_BG,
+    fontSize: "0.8em",
     borderRadius: "100%"
+  },
+  logout: {
+    height: "40px",
+    minWidth: "unset",
+    backgroundColor: COLORS.SECONDARY_BG,
+    color: COLORS.SECONDARY_COLOR,
+    borderRight: `1px solid ${COLORS.PRIMARY_COLOR}`,
+    borderLeft: `1px solid ${COLORS.PRIMARY_COLOR}`
   }
 };
 
-const Header = ({ selectedBoard, selectedLabel, handleSelectBoard, user }) => (
+const Header = ({
+  selectedBoard,
+  selectedLabel,
+  handleSelectBoard,
+  user,
+  handleLogout
+}) => (
   <div style={styles.container}>
     <Button style={styles.button} onClick={handleSelectBoard}>
-      {isEmpty(selectedBoard) ? "Select board" : "Change board"}
+      {isEmpty(selectedBoard) ? "Select board / label" : "Change board / label"}
     </Button>
 
-    {!isEmpty(selectedBoard) && !isEmpty(selectedLabel) && (
-      <div style={styles.info}>
-        <div style={styles.dot(selectedLabel.color)} />
-        <div style={styles.label}>{selectedLabel.label}</div>
-        <div style={styles.board}>{selectedBoard.label}</div>
-      </div>
-    )}
+    <div style={styles.info}>
+      {!isEmpty(selectedBoard) && !isEmpty(selectedLabel) && (
+        <Fragment>
+          <div style={styles.dot(selectedLabel.color)} />
+          <div style={styles.label}>{selectedLabel.label}</div>
+          <div style={styles.board}>{selectedBoard.label}</div>
+        </Fragment>
+      )}
+    </div>
 
     {!isEmpty(user) && (
       <div style={styles.user}>
-        <div>{user.fullName}</div>
         <div style={styles.initials}>{user.initials}</div>
+        <div>{user.fullName}</div>
       </div>
     )}
+
+    <Button style={styles.logout} onClick={handleLogout} title="Logout">
+      <Logout />
+    </Button>
   </div>
 );
 
@@ -105,7 +127,8 @@ Header.propTypes = {
     fullName: PropTypes.string,
     initial: PropTypes.string
   }),
-  handleSelectBoard: PropTypes.func.isRequired
+  handleSelectBoard: PropTypes.func.isRequired,
+  handleLogout: PropTypes.func.isRequired
 };
 
 export default Header;

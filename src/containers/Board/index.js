@@ -17,6 +17,7 @@ import {
 } from "containers/Board/actions";
 import DependencyGraph from "components/Board/DependencyGraph";
 import Header from "components/Board/Header";
+import { resetTrelloToken } from "containers/Authorization/actions";
 
 const Board = ({ dispatch, selectedBoard, selectedLabel, cards, user }) => {
   const [isSelectDialogOpen, setIsSelectDialogOpen] = useState(false);
@@ -37,6 +38,7 @@ const Board = ({ dispatch, selectedBoard, selectedLabel, cards, user }) => {
         selectedLabel={selectedLabel}
         user={user}
         handleSelectBoard={() => setIsSelectDialogOpen(true)}
+        handleLogout={() => dispatch(resetTrelloToken())}
       />
 
       <SelectDialog
