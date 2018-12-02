@@ -9,9 +9,12 @@ import { setTrelloToken } from "containers/Authorization/actions";
 import { LOCAL_STORAGE_KEY } from "containers/Trello/constants";
 
 const Home = ({ dispatch, trelloToken }) => {
-  useEffect(() => {
-    dispatch(setTrelloToken(localStorage.getItem(LOCAL_STORAGE_KEY)));
-  }, []);
+  useEffect(
+    () => {
+      dispatch(setTrelloToken(localStorage.getItem(LOCAL_STORAGE_KEY)));
+    },
+    [trelloToken]
+  );
 
   return trelloToken ? <Board /> : <Authorization />;
 };

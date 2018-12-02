@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -72,6 +72,7 @@ const formatCards = cards => {
     style: {
       strokeWidth: 2
     },
+    // eslint-disable-next-line no-bitwise
     constraints: NodeConstraints.Default & ~NodeConstraints.Rotate
   }));
 };
@@ -79,7 +80,7 @@ const formatCards = cards => {
 const connectors = [];
 
 const DependencyGraph = ({ cards }) => {
-  let diagramInstance = null;
+  const [diagramInstance, setDiagramInstance] = useState(null);
 
   const addConnection = (sourceId, targetId) => {
     if (diagramInstance) {
@@ -134,7 +135,7 @@ const DependencyGraph = ({ cards }) => {
       id="diagram"
       width="100%"
       height={window.innerHeight - 100}
-      ref={diagram => (diagramInstance = diagram)}
+      ref={setDiagramInstance}
       nodes={formatCards(cards)}
       connectors={connectors}
       created={fitDiagramToPage}
