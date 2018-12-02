@@ -2,7 +2,11 @@ export default {
   LABELS_DEFAULT_COLOR: "lightblue",
   GREY: "#CCC",
   WHITE: "#FFF",
-  BLACK: "#000",
+  BLACK: "#000000",
   SELECTED_BOARD: "#4B83AE",
-  ERROR: "#ff6670"
+  ERROR: "#ff6670",
+
+  HEADER_BG: "#333333",
+  PRIMARY_BG: "#FF9900",
+  PRIMARY_COLOR: "#333333"
 };

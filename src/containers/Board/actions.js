@@ -59,3 +59,16 @@ export const setCards = cards => ({
 export const resetCards = () => ({
   type: constants.RESET_CARDS
 });
+
+export const fetchUser = () => ({
+  type: constants.FETCH_USER
+});
+
+export const setUser = user => ({
+  type: constants.SET_USER,
+  user
+});
+
+export const resetUser = () => ({
+  type: constants.RESET_USER
+});

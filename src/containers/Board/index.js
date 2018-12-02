@@ -2,15 +2,12 @@ import React, { useState, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import Button from "@material-ui/core/Button";
-
-import isEmpty from "lodash/isEmpty";
-
 import SelectDialog from "containers/Board/SelectDialog";
 import {
   makeSelectSelectedBoard,
   makeSelectSelectedLabel,
-  makeSelectCards
+  makeSelectCards,
+  makeSelectUser
 } from "containers/Board/selectors";
 import {
   setSelectedBoard,
@@ -19,8 +16,9 @@ import {
   resetCards
 } from "containers/Board/actions";
 import DependencyGraph from "components/Board/DependencyGraph";
+import Header from "components/Board/Header";
 
-const Board = ({ dispatch, selectedBoard, selectedLabel, cards }) => {
+const Board = ({ dispatch, selectedBoard, selectedLabel, cards, user }) => {
   const [isSelectDialogOpen, setIsSelectDialogOpen] = useState(false);
 
   const handleSubmitSelectDialog = (board, label) => {
@@ -34,26 +32,13 @@ const Board = ({ dispatch, selectedBoard, selectedLabel, cards }) => {
 
   return (
     <Fragment>
-      {!isEmpty(selectedBoard) && <span>{selectedBoard.label}</span>}
-      {!isEmpty(selectedLabel) && (
-        <span
-          style={{
-            backgroundColor: selectedLabel.color,
-            padding: "5px 20px",
-            borderRadius: "10px"
-          }}
-        >
-          {selectedLabel.label}
-        </span>
-      )}
+      <Header
+        selectedBoard={selectedBoard}
+        selectedLabel={selectedLabel}
+        user={user}
+        handleSelectBoard={() => setIsSelectDialogOpen(true)}
+      />
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setIsSelectDialogOpen(true)}
-      >
-        Select Board
-      </Button>
       <SelectDialog
         isSelectDialogOpen={isSelectDialogOpen}
         handleSubmitSelectDialog={handleSubmitSelectDialog}
@@ -68,7 +53,8 @@ const Board = ({ dispatch, selectedBoard, selectedLabel, cards }) => {
 Board.defaultProps = {
   selectedBoard: {},
   selectedLabel: {},
-  cards: []
+  cards: [],
+  user: null
 };
 
 Board.propTypes = {
@@ -88,13 +74,19 @@ Board.propTypes = {
       name: PropTypes.string,
       idShort: PropTypes.number
     })
-  )
+  ),
+  user: PropTypes.shape({
+    id: PropTypes.string,
+    fullName: PropTypes.string,
+    initial: PropTypes.string
+  })
 };
 
 const mapStateToProps = state => ({
   selectedBoard: makeSelectSelectedBoard()(state),
   selectedLabel: makeSelectSelectedLabel()(state),
-  cards: makeSelectCards()(state)
+  cards: makeSelectCards()(state),
+  user: makeSelectUser()(state)
 });
 
 export default connect(mapStateToProps)(Board);

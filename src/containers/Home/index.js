@@ -7,11 +7,13 @@ import Board from "containers/Board";
 import { makeSelectTrelloToken } from "containers/Authorization/selectors";
 import { setTrelloToken } from "containers/Authorization/actions";
 import { LOCAL_STORAGE_KEY } from "containers/Trello/constants";
+import { fetchUser } from "containers/Board/actions";
 
 const Home = ({ dispatch, trelloToken }) => {
   useEffect(
     () => {
       dispatch(setTrelloToken(localStorage.getItem(LOCAL_STORAGE_KEY)));
+      dispatch(fetchUser());
     },
     [trelloToken]
   );

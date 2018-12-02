@@ -12,6 +12,7 @@ module.exports = {
     response_type: "token"
   },
   API_URLS: {
+    USER: "/members/me?fields=fullName,initials",
     BOARDS: "/members/me/boards?fields=name",
     labels: boardId => `/boards/${boardId}/labels?fields=name,color`,
     cards: (boardId, labelName) =>

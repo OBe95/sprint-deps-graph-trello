@@ -3,9 +3,15 @@ import { put, takeLatest, all } from "redux-saga/effects";
 import {
   FETCH_BOARDS,
   FETCH_LABELS,
-  FETCH_CARDS
+  FETCH_CARDS,
+  FETCH_USER
 } from "containers/Board/constants";
-import { setBoards, setLabels, setCards } from "containers/Board/actions";
+import {
+  setBoards,
+  setLabels,
+  setCards,
+  setUser
+} from "containers/Board/actions";
 import { Trello, API_URLS } from "containers/Trello/constants";
 import { errorHandler } from "containers/Trello/helper";
 
@@ -68,6 +74,30 @@ function* fetchCardsSaga() {
   yield takeLatest(FETCH_CARDS, fetchCards);
 }
 
+function* fetchUser() {
+  let error = null;
+  const user = yield Trello.get(API_URLS.USER)
+    .then(_user => _user)
+    .catch(_error => {
+      error = _error;
+      return null;
+    });
+
+  if (error) {
+    yield* errorHandler(error);
+  }
+
+  yield put(setUser(user));
+}
+function* fetchUserSaga() {
+  yield takeLatest(FETCH_USER, fetchUser);
+}
+
 export default function* boardSagas() {
-  yield all([fetchBoardsSaga(), fetchLabelsSaga(), fetchCardsSaga()]);
+  yield all([
+    fetchBoardsSaga(),
+    fetchLabelsSaga(),
+    fetchCardsSaga(),
+    fetchUserSaga()
+  ]);
 }

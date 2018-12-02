@@ -32,10 +32,17 @@ export const makeSelectCards = () =>
     boardState => boardState.cards
   );
 
+export const makeSelectUser = () =>
+  createSelector(
+    [getBoardState],
+    boardState => boardState.user
+  );
+
 export default {
   makeSelectBoards,
   makeSelectLabels,
   makeSelectSelectedBoard,
   makeSelectSelectedLabel,
-  makeSelectCards
+  makeSelectCards,
+  makeSelectUser
 };
