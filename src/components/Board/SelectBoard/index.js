@@ -42,6 +42,7 @@ const SelectBoard = ({
 }) => (
   <div style={{ margin: "10px 0" }}>
     <Select
+      name="board"
       isDisabled={boards.length === 0}
       isClearable
       isSearchable

@@ -78,7 +78,7 @@ const SelectLabels = ({
 }) => (
   <div style={{ margin: "10px 0" }}>
     <Select
-      label="Single select"
+      name="label"
       isDisabled={labels.length === 0}
       options={formatLabels(labels)}
       styles={colourStyles(error)}

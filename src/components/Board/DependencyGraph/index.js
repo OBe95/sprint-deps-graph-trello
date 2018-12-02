@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 
 import {
@@ -10,6 +10,7 @@ import {
   ConnectorEditing,
   Inject
 } from "@syncfusion/ej2-react-diagrams";
+import DependencyForm from "components/Board/DependencyGraph/DependencyForm";
 
 const BOARD_ROWS = 4;
 const MAX_TITLE_LENGTH = 80;
@@ -24,11 +25,16 @@ const formatCardTitle = title => {
   return title;
 };
 
+const formatCardId = cardId => `card-${cardId}`;
+
+const formatConnectorId = (sourceId, targetId) =>
+  `connector-${sourceId}-${targetId}`;
+
 const formatCards = cards => {
   const cardsPerRow = Math.ceil(cards.length / BOARD_ROWS);
 
   return cards.map((card, index) => ({
-    id: `card_${card.idShort}`,
+    id: formatCardId(card.idShort),
     width: 200,
     height: 75,
     offsetX: 225 * (index % cardsPerRow) + 25,
@@ -49,7 +55,7 @@ const formatCards = cards => {
         }
       },
       {
-        content: `${formatCardTitle(card.name)}`,
+        content: formatCardTitle(card.name),
         margin: {
           bottom: 30,
           left: 20,
@@ -59,16 +65,6 @@ const formatCards = cards => {
         width: 180
       }
     ],
-    expandIcon: {
-      shape: "ArrowDown",
-      width: 10,
-      height: 10
-    },
-    collapseIcon: {
-      shape: "ArrowUp",
-      width: 10,
-      height: 10
-    },
     style: {
       strokeWidth: 2
     },
@@ -77,19 +73,26 @@ const formatCards = cards => {
   }));
 };
 
-const connectors = [];
+const getConnectors = diagramInstance =>
+  diagramInstance ? diagramInstance.connectors : [];
+
+const getNodes = (diagramInstance, cards) =>
+  diagramInstance ? diagramInstance.nodes : formatCards(cards);
 
 const DependencyGraph = ({ cards }) => {
   const [diagramInstance, setDiagramInstance] = useState(null);
+  const [selectedTargets, setSelectedTargets] = useState([]);
+  const [selectedSources, setSelectedSources] = useState([]);
 
-  const addConnection = (sourceId, targetId) => {
+  const addConnector = (sourceId, targetId) => {
     if (diagramInstance) {
-      const connectionId = `${sourceId}-${targetId}`;
+      const connectionId = formatConnectorId(sourceId, targetId);
       const existingConnection = diagramInstance.connectors.find(
         connection => connection.id === connectionId
       );
 
-      if (existingConnection.length > 0) {
+      if (existingConnection) {
+        // TODO display a toaster
         console.log(
           `A connection from ${sourceId} to ${targetId} already exists`
         );
@@ -99,16 +102,34 @@ const DependencyGraph = ({ cards }) => {
         ...diagramInstance.connectors,
         {
           id: connectionId,
-          sourceID: `${sourceId}`,
-          targetID: `${targetId}`,
-          type: "Orthogonal",
+          sourceID: formatCardId(sourceId),
+          targetID: formatCardId(targetId),
           style: {
             strokeWidth: 2
           }
         }
       ];
-      diagramInstance.dataBind();
+      // diagramInstance.dataBind();
     }
+  };
+
+  const addConnectors = (sourceIds, targetIds) => {
+    sourceIds.map(sourceId => {
+      targetIds.map(targetId => {
+        addConnector(sourceId, targetId);
+        return targetId;
+      });
+      return sourceId;
+    });
+  };
+
+  const handleSubmitDependencyForm = () => {
+    addConnectors(
+      selectedSources.map(source => source.value),
+      selectedTargets.map(target => target.value)
+    );
+    setSelectedSources([]);
+    setSelectedTargets([]);
   };
 
   const bringToFront = () => {
@@ -131,26 +152,36 @@ const DependencyGraph = ({ cards }) => {
   };
 
   return (
-    <DiagramComponent
-      id="diagram"
-      width="100%"
-      height={window.innerHeight - 100}
-      ref={setDiagramInstance}
-      nodes={formatCards(cards)}
-      connectors={connectors}
-      created={fitDiagramToPage}
-      mouseLeave={fitDiagramToPage}
-      click={bringToFront}
-    >
-      <Inject
-        services={[
-          PrintAndExport,
-          ConnectorBridging,
-          UndoRedo,
-          ConnectorEditing
-        ]}
+    <Fragment>
+      <DependencyForm
+        cards={cards}
+        selectedTargets={selectedTargets}
+        setSelectedTargets={setSelectedTargets}
+        selectedSources={selectedSources}
+        setSelectedSources={setSelectedSources}
+        handleSubmit={handleSubmitDependencyForm}
       />
-    </DiagramComponent>
+
+      <DiagramComponent
+        id="diagram"
+        width="100%"
+        height={window.innerHeight - 100}
+        ref={setDiagramInstance}
+        nodes={getNodes(diagramInstance, cards)}
+        connectors={getConnectors(diagramInstance)}
+        created={fitDiagramToPage}
+        click={bringToFront}
+      >
+        <Inject
+          services={[
+            PrintAndExport,
+            ConnectorBridging,
+            UndoRedo,
+            ConnectorEditing
+          ]}
+        />
+      </DiagramComponent>
+    </Fragment>
   );
 };
 
