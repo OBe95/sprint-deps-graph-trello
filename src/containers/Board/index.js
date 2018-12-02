@@ -15,20 +15,22 @@ import {
 import {
   setSelectedBoard,
   setSelectedLabel,
-  fetchCards
+  fetchCards,
+  resetCards
 } from "containers/Board/actions";
+import DependencyGraph from "components/Board/DependencyGraph";
 
 const Board = ({ dispatch, selectedBoard, selectedLabel, cards }) => {
   const [isSelectDialogOpen, setIsSelectDialogOpen] = useState(false);
 
   const handleSubmitSelectDialog = (board, label) => {
+    dispatch(resetCards());
+
     dispatch(setSelectedBoard(board));
     dispatch(setSelectedLabel(label));
     dispatch(fetchCards(board.value, label.label));
     setIsSelectDialogOpen(false);
   };
-
-  console.log(cards);
 
   return (
     <Fragment>
@@ -44,6 +46,7 @@ const Board = ({ dispatch, selectedBoard, selectedLabel, cards }) => {
           {selectedLabel.label}
         </span>
       )}
+
       <Button
         variant="contained"
         color="primary"
@@ -56,6 +59,8 @@ const Board = ({ dispatch, selectedBoard, selectedLabel, cards }) => {
         handleSubmitSelectDialog={handleSubmitSelectDialog}
         handleCloseSelectDialog={() => setIsSelectDialogOpen(false)}
       />
+
+      {cards.length > 0 && <DependencyGraph cards={cards} />}
     </Fragment>
   );
 };
@@ -81,7 +86,7 @@ Board.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
-      shortId: PropTypes.number
+      idShort: PropTypes.number
     })
   )
 };

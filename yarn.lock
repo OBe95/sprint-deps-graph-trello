@@ -861,6 +861,90 @@
     "@svgr/core" "^2.4.1"
     loader-utils "^1.1.0"
 
+"@syncfusion/ej2-base@~16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-base/-/ej2-base-16.3.34.tgz#32bb83af61a865241d5c88dd9a4615d15d8b2f14"
+
+"@syncfusion/ej2-buttons@~16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-buttons/-/ej2-buttons-16.3.34.tgz#a8cd9efc13873ccf3eacaa9d8118aba4e61a4a6b"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+
+"@syncfusion/ej2-data@~16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-data/-/ej2-data-16.3.34.tgz#8f8285d4ffaf8d235c40babd003f8bc36f5fa377"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+
+"@syncfusion/ej2-diagrams@16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-diagrams/-/ej2-diagrams-16.3.34.tgz#1126068720bd46cf851cf6baaa554a2201dcd8e1"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+    "@syncfusion/ej2-buttons" "~16.3.34"
+    "@syncfusion/ej2-data" "~16.3.34"
+    "@syncfusion/ej2-inputs" "~16.3.34"
+    "@syncfusion/ej2-lists" "~16.3.34"
+    "@syncfusion/ej2-navigations" "~16.3.34"
+    "@syncfusion/ej2-popups" "~16.3.34"
+
+"@syncfusion/ej2-inputs@~16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-inputs/-/ej2-inputs-16.3.34.tgz#4e7585a0f40201cee3623ad8595ca4548fd66db5"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+    "@syncfusion/ej2-buttons" "~16.3.34"
+    "@syncfusion/ej2-popups" "~16.3.34"
+    "@syncfusion/ej2-splitbuttons" "~16.3.34"
+
+"@syncfusion/ej2-lists@~16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-lists/-/ej2-lists-16.3.34.tgz#6b40049a17f398482280cd339e9fdd99b851649b"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+    "@syncfusion/ej2-buttons" "~16.3.34"
+    "@syncfusion/ej2-data" "~16.3.34"
+
+"@syncfusion/ej2-navigations@~16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-navigations/-/ej2-navigations-16.3.34.tgz#314028d7bf2a6c48fbeb9ca3541eaca1b2587f9a"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+    "@syncfusion/ej2-buttons" "~16.3.34"
+    "@syncfusion/ej2-data" "~16.3.34"
+    "@syncfusion/ej2-inputs" "~16.3.34"
+    "@syncfusion/ej2-lists" "~16.3.34"
+    "@syncfusion/ej2-popups" "~16.3.34"
+
+"@syncfusion/ej2-popups@~16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-popups/-/ej2-popups-16.3.34.tgz#31f5ce92dcb3eb6b88ee8e79f22102bbecedaea1"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+    "@syncfusion/ej2-buttons" "~16.3.34"
+
+"@syncfusion/ej2-react-base@~16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-react-base/-/ej2-react-base-16.3.34.tgz#a348148e30cd7f62b45fa5b062e212f9300a5567"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+
+"@syncfusion/ej2-react-diagrams@^16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-react-diagrams/-/ej2-react-diagrams-16.3.34.tgz#2d23d4a17b1e07ed69dee5e5e826deac29e705a4"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+    "@syncfusion/ej2-diagrams" "16.3.34"
+    "@syncfusion/ej2-react-base" "~16.3.34"
+
+"@syncfusion/ej2-splitbuttons@~16.3.34":
+  version "16.3.34"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-splitbuttons/-/ej2-splitbuttons-16.3.34.tgz#90a530dfc734c6c2ac9f2bfe4662a3bbec08ec94"
+  dependencies:
+    "@syncfusion/ej2-base" "~16.3.34"
+    "@syncfusion/ej2-popups" "~16.3.34"
+
 "@types/jss@^9.5.6":
   version "9.5.7"
   resolved "https://registry.yarnpkg.com/@types/jss/-/jss-9.5.7.tgz#fa57a6d0b38a3abef8a425e3eb6a53495cb9d5a0"
