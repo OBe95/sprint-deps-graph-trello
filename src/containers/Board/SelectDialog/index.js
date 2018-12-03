@@ -11,6 +11,8 @@ import Slide from "@material-ui/core/Slide";
 
 import isEmpty from "lodash/isEmpty";
 
+import "containers/Board/SelectDialog/index.scss";
+
 import {
   fetchBoards,
   resetBoards,
@@ -88,13 +90,12 @@ const SelectDialog = ({
         TransitionComponent={Transition}
         keepMounted
         onClose={handleCloseSelectDialog}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
+        PaperProps={{ className: "dialog" }}
       >
         <DialogTitle id="alert-dialog-slide-title">
           {"Select your board and label"}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent className="dialog-content">
           <Fragment>
             <SelectBoard
               boards={boards || []}
