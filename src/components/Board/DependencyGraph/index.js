@@ -109,7 +109,6 @@ const DependencyGraph = ({ cards }) => {
           }
         }
       ];
-      // diagramInstance.dataBind();
     }
   };
 

@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import createSagaMiddleware from "redux-saga";
 
-import "index.css";
+import "index.scss";
 import Home from "containers/Home";
 import * as serviceWorker from "serviceWorker";
 import { trelloDepsGraphReducer } from "containers/reducer";

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import COLORS from "components/Board/constants";
+import COLORS from "styles/colors";
 
 const TrelloIcon = ({ color }) => (
   <svg x="0px" y="0px" viewBox="0 0 512 512" width="48px" height="48px">

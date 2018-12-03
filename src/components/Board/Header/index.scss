@@ -1,0 +1,61 @@
+@import 'styles/variables.scss';
+
+.header {
+  height: 40px;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: $primary_bg;
+  color: $primary_color;
+
+  .button {
+    height: 40px;
+    background-color: $secondary_bg !important;
+    color: $secondary_color !important;
+    border-right: 1px solid $primary_color !important;
+    border-left: 1px solid $primary_color !important;
+  }
+
+  .info {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .board {
+      padding-left: 10px;
+    }
+
+    .label {
+      padding-right: 10px;
+      border-right: 1px solid $primary_color;
+    }
+  }
+
+  .user {
+    margin: 0 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .initials {
+      padding: 3px;
+      margin-right: 5px;
+      background-color: $primary_color;
+      color: $primary_bg;
+      font-size: 0.8em;
+      border-radius: 100%;
+    }
+  }
+
+  .logout {
+    height: 40px;
+    min-width: unset;
+    background-color: $secondary_bg !important;
+    color: $secondary_color !important;
+    border-right: 1px solid $primary_color !important;
+    border-left: 1px solid $primary_color !important;
+  }
+}

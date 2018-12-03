@@ -5,28 +5,8 @@ import Button from "@material-ui/core/Button";
 
 import Select from "react-select";
 
-import COLORS from "components/Board/constants";
-
-const styles = {
-  container: {
-    height: "40px",
-    margin: "10px",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  select: {
-    flex: 1
-  },
-  text: {
-    margin: "0 10px"
-  },
-  button: {
-    marginLeft: "10px",
-    backgroundColor: COLORS.SECONDARY_BG,
-    color: COLORS.SECONDARY_COLOR
-  }
-};
+import { colourStylesMulti } from "components/Board/helpers";
+import "components/Board/DependencyGraph/DependencyForm/index.scss";
 
 const formatCards = cards =>
   cards
@@ -47,18 +27,19 @@ const DependencyForm = ({
   setSelectedSources,
   handleSubmit
 }) => (
-  <div style={styles.container}>
-    <div style={styles.select}>
+  <div className="dependency-form">
+    <div className="select">
       <Select
         name="targets"
         isMulti
+        styles={colourStylesMulti()}
         options={formatCards(cards)}
         value={selectedTargets}
         onChange={setSelectedTargets}
       />
     </div>
-    <span style={styles.text}>depend on</span>
-    <div style={styles.select}>
+    <span className="text">depend on</span>
+    <div className="select">
       <Select
         name="sources"
         isMulti
@@ -67,7 +48,7 @@ const DependencyForm = ({
         onChange={setSelectedSources}
       />
     </div>
-    <Button style={styles.button} onClick={handleSubmit}>
+    <Button className="add-button" onClick={handleSubmit}>
       Add
     </Button>
   </div>

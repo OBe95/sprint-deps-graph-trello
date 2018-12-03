@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import COLORS from "components/Board/constants";
+import COLORS from "styles/colors";
 
 const LogoutIcon = ({ color }) => (
   <svg x="0px" y="0px" width="20px" height="20px" viewBox="0 0 447.674 447.674">

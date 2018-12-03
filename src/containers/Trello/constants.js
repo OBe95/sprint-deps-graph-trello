@@ -14,11 +14,12 @@ module.exports = {
   API_URLS: {
     USER: "/members/me?fields=fullName,initials",
     BOARDS: "/members/me/boards?fields=name",
-    labels: boardId => `/boards/${boardId}/labels?fields=name,color`,
+    labels: boardId =>
+      `/boards/${encodeURIComponent(boardId)}/labels?fields=name,color`,
     cards: (boardId, labelName) =>
       [
-        `/search?query=label:"${labelName}"`,
-        `&idBoards=${boardId}`,
+        `/search?query=label:"${encodeURIComponent(labelName)}"`,
+        `&idBoards=${encodeURIComponent(boardId)}`,
         `&card_fields=name,idShort`,
         `&cards_limit=1000`
       ].join("")

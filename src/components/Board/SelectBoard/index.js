@@ -2,37 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Select from "react-select";
-import chroma from "chroma-js";
 
-import COLORS from "components/Board/constants";
+import { colourStyles } from "components/Board/helpers";
+import "components/Board/SelectBoard/index.scss";
 
 const formatBoards = boards =>
   boards.map(board => ({
     value: board.id,
     label: board.name
   }));
-
-const optionBackgroundColor = (isSelected, isFocused) => {
-  if (isSelected) return COLORS.PRIMARY_LIGHT_BG;
-  return isFocused
-    ? chroma(COLORS.PRIMARY_LIGHT_BG)
-        .alpha(0.5)
-        .css()
-    : null;
-};
-
-const colourStyles = error => ({
-  control: styles => ({
-    ...styles,
-    backgroundColor: COLORS.LIGHT,
-    borderColor: error ? COLORS.ERROR : styles.borderColor
-  }),
-  option: (styles, { isFocused, isSelected }) => ({
-    ...styles,
-    backgroundColor: optionBackgroundColor(isSelected, isFocused),
-    color: isFocused || isSelected ? COLORS.LIGHT : COLORS.DARK
-  })
-});
 
 const SelectBoard = ({
   boards,
@@ -51,7 +29,7 @@ const SelectBoard = ({
       value={selectedBoard}
       onChange={handleSelectedBoardChange}
     />
-    {error && <span style={{ color: COLORS.ERROR }}>{error}</span>}
+    {error && <span className="error">{error}</span>}
   </div>
 );
 
