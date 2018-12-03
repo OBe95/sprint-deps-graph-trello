@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import isEmpty from "lodash/isEmpty";
 
 import COLORS from "components/Board/constants";
-import Logout from "components/Board/DependencyGraph/DependencyForm/icons/Logout";
+import LogoutIcon from "icons/Logout";
 
 const styles = {
   container: {
@@ -101,7 +101,7 @@ const Header = ({
     )}
 
     <Button style={styles.logout} onClick={handleLogout} title="Logout">
-      <Logout />
+      <LogoutIcon />
     </Button>
   </div>
 );

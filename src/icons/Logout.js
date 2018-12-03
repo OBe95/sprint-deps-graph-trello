@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import COLORS from "components/Board/constants";
 
-const Logout = ({ color }) => (
+const LogoutIcon = ({ color }) => (
   <svg x="0px" y="0px" width="20px" height="20px" viewBox="0 0 447.674 447.674">
     <g>
       <path
@@ -18,12 +18,12 @@ const Logout = ({ color }) => (
   </svg>
 );
 
-Logout.defaultProps = {
+LogoutIcon.defaultProps = {
   color: COLORS.PRIMARY_COLOR
 };
 
-Logout.propTypes = {
+LogoutIcon.propTypes = {
   color: PropTypes.string
 };
 
-export default Logout;
+export default LogoutIcon;
