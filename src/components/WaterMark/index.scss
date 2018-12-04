@@ -1,0 +1,17 @@
+@import 'styles/variables.scss';
+
+.water-mark {
+  font-size: 0.8em;
+  color: $dark;
+  background-color: $secondary_color;
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 1px solid $secondary_bg;
+  border-top-left-radius: 5px;
+
+  a {
+    color: $secondary_bg;
+  }
+}

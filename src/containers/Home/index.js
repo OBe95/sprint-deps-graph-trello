@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -8,6 +8,7 @@ import { makeSelectTrelloToken } from "containers/Authorization/selectors";
 import { setTrelloToken } from "containers/Authorization/actions";
 import { LOCAL_STORAGE_KEY } from "containers/Trello/constants";
 import { fetchUser } from "containers/Board/actions";
+import WaterMark from "components/WaterMark";
 
 const Home = ({ dispatch, trelloToken }) => {
   useEffect(
@@ -18,7 +19,12 @@ const Home = ({ dispatch, trelloToken }) => {
     [trelloToken]
   );
 
-  return trelloToken ? <Board /> : <Authorization />;
+  return (
+    <Fragment>
+      {trelloToken ? <Board /> : <Authorization />}
+      <WaterMark />
+    </Fragment>
+  );
 };
 
 const mapStateToProps = state => ({

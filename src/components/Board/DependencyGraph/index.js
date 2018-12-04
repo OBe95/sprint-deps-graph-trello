@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import {
   DiagramComponent,
   NodeConstraints,
+  DiagramConstraints,
   PrintAndExport,
   ConnectorBridging,
   UndoRedo,
@@ -29,6 +30,12 @@ const formatCardId = cardId => `card-${cardId}`;
 
 const formatConnectorId = (sourceId, targetId) =>
   `connector-${sourceId}-${targetId}`;
+
+/* eslint-disable no-bitwise */
+const diagramConstraint = () =>
+  DiagramConstraints.Default | DiagramConstraints.Bridging;
+
+const cardConstraint = () => NodeConstraints.Default & ~NodeConstraints.Rotate;
 
 const formatCards = cards => {
   const cardsPerRow = Math.ceil(cards.length / BOARD_ROWS);
@@ -68,8 +75,7 @@ const formatCards = cards => {
     style: {
       strokeWidth: 2
     },
-    // eslint-disable-next-line no-bitwise
-    constraints: NodeConstraints.Default & ~NodeConstraints.Rotate
+    constraints: cardConstraint()
   }));
 };
 
@@ -150,6 +156,7 @@ const DependencyGraph = ({ cards }) => {
     }
   };
 
+  // eslint-disable no-bitwise
   return (
     <Fragment>
       <DependencyForm
@@ -159,6 +166,7 @@ const DependencyGraph = ({ cards }) => {
         selectedSources={selectedSources}
         setSelectedSources={setSelectedSources}
         handleSubmit={handleSubmitDependencyForm}
+        handleFitToPage={fitDiagramToPage}
       />
 
       <DiagramComponent
@@ -170,6 +178,7 @@ const DependencyGraph = ({ cards }) => {
         connectors={getConnectors(diagramInstance)}
         created={fitDiagramToPage}
         click={bringToFront}
+        constraints={diagramConstraint()}
       >
         <Inject
           services={[

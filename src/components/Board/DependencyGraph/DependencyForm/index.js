@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import Select from "react-select";
 
 import { colourStylesMulti } from "components/Board/helpers";
+import FitToPageIcon from "icons/FitToPage";
 import "components/Board/DependencyGraph/DependencyForm/index.scss";
 
 const formatCards = cards =>
@@ -25,7 +26,8 @@ const DependencyForm = ({
   setSelectedTargets,
   selectedSources,
   setSelectedSources,
-  handleSubmit
+  handleSubmit,
+  handleFitToPage
 }) => (
   <div className="dependency-form">
     <div className="select">
@@ -38,7 +40,9 @@ const DependencyForm = ({
         onChange={setSelectedTargets}
       />
     </div>
+
     <span className="text">depend on</span>
+
     <div className="select">
       <Select
         name="sources"
@@ -48,8 +52,17 @@ const DependencyForm = ({
         onChange={setSelectedSources}
       />
     </div>
+
     <Button className="add-button" onClick={handleSubmit}>
       Add
+    </Button>
+
+    <Button
+      className="fit-button"
+      title="Fit to page"
+      onClick={handleFitToPage}
+    >
+      <FitToPageIcon />
     </Button>
   </div>
 );
@@ -80,7 +93,8 @@ DependencyForm.propTypes = {
     })
   ),
   setSelectedSources: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  handleFitToPage: PropTypes.func.isRequired
 };
 
 export default DependencyForm;
