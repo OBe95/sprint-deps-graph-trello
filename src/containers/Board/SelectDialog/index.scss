@@ -1,7 +1,19 @@
+@import 'styles/variables.scss';
+
 .dialog {
   overflow: visible !important;
-}
 
-.dialog-content {
-  overflow: visible !important;
+  .dialog-content {
+    overflow: visible !important;
+  }
+
+  .cancel-button {
+    background-color: $danger_bg !important;
+    color: $danger_color !important;
+  }
+
+  .proceed-button {
+    background-color: $secondary_bg !important;
+    color: $secondary_color !important;
+  }
 }

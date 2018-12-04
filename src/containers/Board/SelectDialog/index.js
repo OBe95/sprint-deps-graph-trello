@@ -112,10 +112,10 @@ const SelectDialog = ({
           </Fragment>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseSelectDialog} color="primary">
+          <Button onClick={handleCloseSelectDialog} className="cancel-button">
             Close
           </Button>
-          <Button onClick={validateAndSubmit} color="primary">
+          <Button onClick={validateAndSubmit} className="proceed-button">
             Proceed
           </Button>
         </DialogActions>

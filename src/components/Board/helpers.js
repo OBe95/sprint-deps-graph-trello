@@ -3,7 +3,7 @@ import chroma from "chroma-js";
 import COLORS from "styles/colors";
 
 const optionBackgroundColor = (isSelected, isFocused, data = null) => {
-  const color = data.color || COLORS.PRIMARY_LIGHT_BG;
+  const color = data.color || COLORS.PRIMARY_BG;
   if (isSelected) return color;
   return isFocused
     ? chroma(color)
@@ -12,7 +12,7 @@ const optionBackgroundColor = (isSelected, isFocused, data = null) => {
     : null;
 };
 
-const dot = (color = COLORS.SECONDARY_LIGHT_BG) => ({
+const dot = (color = COLORS.SECONDARY_BG) => ({
   alignItems: "center",
   display: "inline-block",
   maxWidth: "calc(100% - 20px)",
@@ -35,14 +35,14 @@ export const colourStyles = error => ({
   control: styles => ({
     ...styles,
     backgroundColor: COLORS.LIGHT,
-    borderColor: error ? COLORS.ERROR : COLORS.PRIMARY_LIGHT_BG,
+    borderColor: error ? COLORS.DANGER_BG : COLORS.PRIMARY_BG,
     boxShadow: "none",
     ":hover": {
-      borderColor: COLORS.SECONDARY_LIGHT_BG
+      borderColor: COLORS.SECONDARY_BG
     }
   }),
   option: (styles, { data, isFocused, isSelected }) => {
-    const color = data.color || COLORS.PRIMARY_LIGHT_BG;
+    const color = data.color || COLORS.PRIMARY_BG;
     return {
       ...styles,
       backgroundColor: optionBackgroundColor(isSelected, isFocused, data),
@@ -61,7 +61,7 @@ export const colourStylesWithDot = error => ({
 export const colourStylesMulti = error => ({
   ...colourStyles(error),
   multiValue: (styles, { data }) => {
-    const color = data.color || COLORS.PRIMARY_LIGHT_BG;
+    const color = data.color || COLORS.PRIMARY_BG;
     return {
       ...styles,
       backgroundColor: chroma(color)
@@ -70,14 +70,14 @@ export const colourStylesMulti = error => ({
     };
   },
   multiValueLabel: (styles, { data }) => {
-    const color = data.color || COLORS.PRIMARY_LIGHT_BG;
+    const color = data.color || COLORS.PRIMARY_BG;
     return {
       ...styles,
       color
     };
   },
   multiValueRemove: (styles, { data }) => {
-    const color = data.color || COLORS.PRIMARY_LIGHT_BG;
+    const color = data.color || COLORS.PRIMARY_BG;
     return {
       ...styles,
       color,
@@ -94,7 +94,7 @@ export const formatColor = color => {
   try {
     allowedColor = chroma(color);
   } catch (err) {
-    allowedColor = chroma(COLORS.LABELS_DEFAULT_COLOR);
+    allowedColor = chroma(COLORS.PRIMARY_BG);
   }
   return allowedColor.darken().hex();
 };
