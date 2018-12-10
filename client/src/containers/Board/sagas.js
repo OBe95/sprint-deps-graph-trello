@@ -1,4 +1,6 @@
-import { put, takeLatest, all } from "redux-saga/effects";
+import { put, takeLatest, all, select } from "redux-saga/effects";
+
+import axios from "axios";
 
 import {
   FETCH_BOARDS,
@@ -12,15 +14,19 @@ import {
   setCards,
   setUser
 } from "containers/Board/actions";
-import { Trello, API_URLS } from "containers/Trello/constants";
 import { errorHandler } from "containers/Trello/helper";
+import { makeSelectTrelloToken } from "containers/Authorization/selectors";
 
+// TODO: EXPORT URLS TO CONFIG FILE
 function* fetchBoards() {
+  const token = yield select(makeSelectTrelloToken());
+
   let error = null;
-  const boards = yield Trello.get(API_URLS.BOARDS)
-    .then(_boards => _boards)
+  const boards = yield axios
+    .get(`http://localhost:5000/boards?token=${token}`)
+    .then(response => response.data)
     .catch(_error => {
-      error = _error;
+      error = _error.response;
       return [];
     });
 
@@ -28,6 +34,7 @@ function* fetchBoards() {
     yield* errorHandler(error);
   }
 
+  console.log("setting boards", boards);
   yield put(setBoards(boards));
 }
 function* fetchBoardsSaga() {
@@ -35,11 +42,15 @@ function* fetchBoardsSaga() {
 }
 
 function* fetchLabels(action) {
+  const token = yield select(makeSelectTrelloToken());
+  const { boardId } = action;
+
   let error = null;
-  const labels = yield Trello.get(API_URLS.labels(action.boardId))
-    .then(_labels => _labels)
+  const labels = yield axios
+    .get(`http://localhost:5000/labels?token=${token}&boardId=${boardId}`)
+    .then(response => response.data)
     .catch(_error => {
-      error = _error;
+      error = _error.response;
       return [];
     });
 
@@ -47,6 +58,7 @@ function* fetchLabels(action) {
     yield* errorHandler(error);
   }
 
+  console.log("setting labels", labels);
   yield put(setLabels(labels));
 }
 function* fetchLabelsSaga() {
@@ -54,13 +66,19 @@ function* fetchLabelsSaga() {
 }
 
 function* fetchCards(action) {
+  const token = yield select(makeSelectTrelloToken());
+  const { labelName, boardId } = action;
+
   let error = null;
-  const response = yield Trello.get(
-    API_URLS.cards(action.boardId, action.labelName)
-  )
-    .then(_cards => _cards)
+  const response = yield axios
+    .get(
+      `http://localhost:5000/cards?token=${token}&labelName=${encodeURIComponent(
+        labelName
+      )}&boardId=${encodeURIComponent(boardId)}`
+    )
+    .then(_response => _response.data)
     .catch(_error => {
-      error = _error;
+      error = _error.response;
       return [];
     });
 
@@ -68,6 +86,7 @@ function* fetchCards(action) {
     yield* errorHandler(error);
   }
 
+  console.log("setting cards", response.cards);
   yield put(setCards(response.cards));
 }
 function* fetchCardsSaga() {
@@ -75,11 +94,14 @@ function* fetchCardsSaga() {
 }
 
 function* fetchUser() {
+  const token = yield select(makeSelectTrelloToken());
+
   let error = null;
-  const user = yield Trello.get(API_URLS.USER)
-    .then(_user => _user)
+  const user = yield axios
+    .get(`http://localhost:5000/user?token=${token}`)
+    .then(response => response.data)
     .catch(_error => {
-      error = _error;
+      error = _error.response;
       return null;
     });
 
@@ -87,6 +109,7 @@ function* fetchUser() {
     yield* errorHandler(error);
   }
 
+  console.log("setting user", user);
   yield put(setUser(user));
 }
 function* fetchUserSaga() {

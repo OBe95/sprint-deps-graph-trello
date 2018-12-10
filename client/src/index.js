@@ -7,15 +7,15 @@ import createSagaMiddleware from "redux-saga";
 import "index.scss";
 import Home from "containers/Home";
 import * as serviceWorker from "serviceWorker";
-import { trelloDepsGraphReducer } from "containers/reducer";
-import trelloDepsGraphSagas from "containers/sagas";
+import { sprintDepsGraphReducer } from "containers/reducer";
+import sprintDepsGraphSagas from "containers/sagas";
 
-const reducer = combineReducers(trelloDepsGraphReducer);
+const reducer = combineReducers(sprintDepsGraphReducer);
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducer, applyMiddleware(sagaMiddleware));
 
 // run sagas
-sagaMiddleware.run(trelloDepsGraphSagas);
+sagaMiddleware.run(sprintDepsGraphSagas);
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,9 +1,9 @@
 import { authorizationReducer } from "containers/Authorization/reducer";
 import { boardReducer } from "containers/Board/reducer";
 
-export const trelloDepsGraphReducer = {
+export const sprintDepsGraphReducer = {
   authorizationReducer,
   boardReducer
 };
 
-export default { trelloDepsGraphReducer };
+export default { sprintDepsGraphReducer };
