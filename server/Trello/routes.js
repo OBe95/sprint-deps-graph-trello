@@ -1,80 +1,106 @@
 const TRELLO_CONFIG = require('./config');
+const redisHelper = require('../Redis/helper');
 
-const getUser = function (req, res) {
-  const accessToken = req.query.token;
-  const accessTokenSecret = req.app.get('access_secrets')[accessToken];
+const handleError = (method, error, res) => {
+  console.error(`### ${method} error:`, error);
+  res.status(401).send(error);
+}
 
-  const url = `${TRELLO_CONFIG.base_url}/members/me?fields=fullName,initials`
+const getUser = async (req, res) => {
+  const { token } = req.query;
 
-  req.app.get('oauth').getProtectedResource(url, "GET", accessToken, accessTokenSecret, function (error, user) {
-    if (error) {
-      console.error("#### getUser error", error);
-      res.status(401).send(error);
-    } else {
-      console.log("#### getUser", user);
-      res.status(200).send(user);
+  try {
+    if (!token) {
+      handleError("getUser", new Error("token is not defined"), res);
+      return;
     }
-  });
-};
-const getBoards = function (req, res) {
-  const accessToken = req.query.token;
 
-  const accessTokenSecret = req.app.get('access_secrets')[accessToken];
+    const redisClient = req.app.get('redis_client');
+    const tokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatTokenSecret(token));
 
-  const url = `${TRELLO_CONFIG.base_url}/members/me/boards?fields=name`;
-
-  req.app.get('oauth').getProtectedResource(url, "GET", accessToken, accessTokenSecret, function (error, boards) {
-    if (error) {
-      console.error("#### getBoards error", error);
-      res.status(401).send(error);
-    } else {
-      console.log("#### getBoards", boards);
-      res.status(200).send(boards);
-    }
-  });
-};
-const getLabels = function (req, res) {
-  const accessToken = req.query.token;
-  const boardId = req.query.boardId;
-
-  const accessTokenSecret = req.app.get('access_secrets')[accessToken];
-
-  const url = `${TRELLO_CONFIG.base_url}/boards/${encodeURIComponent(boardId)}/labels?fields=name,color`;
-
-  req.app.get('oauth').getProtectedResource(url, "GET", accessToken, accessTokenSecret, function (error, labels) {
-    if (error) {
-      console.error("#### getLabels error", error);
-      res.status(401).send(error);
-    } else {
-      console.log("#### getLabels", labels);
-      res.status(200).send(labels);
-    }
-  });
-};
-const getCards = function (req, res) {
-  const accessToken = req.query.token;
-  const labelName = req.query.labelName;
-  const boardId = req.query.boardId;
-
-  const accessTokenSecret = req.app.get('access_secrets')[accessToken];
-
-  const url = [
-    `${TRELLO_CONFIG.base_url}`,
-    `/search?query=label:"${encodeURIComponent(labelName)}"`,
-    `&idBoards=${encodeURIComponent(boardId)}`,
-    `&card_fields=name,idShort`,
-    `&cards_limit=1000`
-  ].join("");
-
-  req.app.get('oauth').getProtectedResource(url, "GET", accessToken, accessTokenSecret, function (error, cards) {
-    if (error) {
-      console.error("#### getCards error", error);
-      res.status(401).send(error);
-    } else {
-      console.log("#### getCards", cards);
-      res.status(200).send(cards);
-    }
-  });
+    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.user, 'GET', token, tokenSecret, (error, user) => {
+      if (error) {
+        handleError("getUser", error, res);
+      } else {
+        res.status(200).send(user);
+      }
+    });
+  } catch (error) {
+    handleError("getUser", error, res);
+  }
 };
 
-module.exports = { getUser, getBoards, getLabels, getCards }
+const getBoards = async (req, res) => {
+  const { token } = req.query;
+
+  try {
+    if (!token) {
+      handleError("getBoards", new Error("token is not defined"), res);
+      return;
+    }
+
+    const redisClient = req.app.get('redis_client');
+    const tokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatTokenSecret(token));
+
+    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.boards, 'GET', token, tokenSecret, (error, boards) => {
+      if (error) {
+        handleError("getBoards", error, res);
+      } else {
+        res.status(200).send(boards);
+      }
+    });
+  } catch (error) {
+    handleError("getBoards", error, res);
+  }
+};
+
+const getLabels = async (req, res) => {
+  const { token, boardId } = req.query;
+
+  try {
+    if (!token) {
+      handleError("getLabels", new Error("token is not defined"), res);
+      return;
+    }
+
+    const redisClient = req.app.get('redis_client');
+    const tokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatTokenSecret(token));
+
+    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.labels(boardId), 'GET', token, tokenSecret, (error, labels) => {
+      if (error) {
+        handleError("getLabels", error, res);
+      } else {
+        res.status(200).send(labels);
+      }
+    });
+  } catch (error) {
+    handleError("getLabels", error, res);
+  }
+};
+const getCards = async (req, res) => {
+  const { token, boardId, labelName } = req.query;
+
+  try {
+    if (!token) {
+      handleError("getCards", new Error("token is not defined"), res);
+      return;
+    }
+
+    const redisClient = req.app.get('redis_client');
+    const tokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatTokenSecret(token));
+
+    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.cards(boardId, labelName), 'GET', token, tokenSecret, (error, cards) => {
+      if (error) {
+        handleError("getCards", error, res);
+      } else {
+        res.status(200).send(cards);
+      }
+    });
+  } catch (error) {
+    handleError("getCards", error, res);
+  }
+};
+
+module.exports = {
+  getUser, getBoards, getLabels, getCards,
+};

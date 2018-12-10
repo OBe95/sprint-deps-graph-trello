@@ -72,3 +72,7 @@ export const setUser = user => ({
 export const resetUser = () => ({
   type: constants.RESET_USER
 });
+
+export const logout = () => ({
+  type: constants.LOGOUT
+});

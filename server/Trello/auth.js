@@ -1,15 +1,19 @@
 const TRELLO_CONFIG = require('./config');
+const redisHelper = require('../Redis/helper');
 
-const authorize = function (req, res) {
-  const socketId = req.query.socketId;
+const authorize = (req, res) => {
+  const { socketId } = req.query;
   if (socketId) {
-    req.app.get('oauth').getOAuthRequestToken(function (error, token, tokenSecret) {
+    req.app.get('oauth').getOAuthRequestToken((error, token, tokenSecret) => {
       if (error) {
         res.status(401).send();
       } else {
-        req.app.get('oauth_secrets')[token] = tokenSecret;
-        req.app.get('oauth_sockets')[token] = socketId;
-        res.redirect(`${TRELLO_CONFIG.authorizeURL}?oauth_token=${token}&name=${TRELLO_CONFIG.appName}`);
+        const redisClient = req.app.get('redis_client');
+        if (redisClient) {
+          redisClient.set(redisHelper.formatAuthSecret(token), tokenSecret);
+          redisClient.set(redisHelper.formatAuthSocket(token), socketId);
+          res.redirect(TRELLO_CONFIG.authorizeURL(token));
+        }
       }
     });
   } else {
@@ -17,18 +21,45 @@ const authorize = function (req, res) {
   }
 };
 
-const authorizeCallback = function (req, res) {
+const authorizeCallback = async (req) => {
   const token = req.query.oauth_token;
-  const tokenSecret = req.app.get('oauth_secrets')[token];
-  const socketId = req.app.get('oauth_sockets')[token];
   const verifier = req.query.oauth_verifier;
-  req.app.get('oauth').getOAuthAccessToken(token, tokenSecret, verifier, function (error, accessToken, accessTokenSecret) {
-    if (error) {
-      req.app.get('io').in(socketId).emit("unauthorized", error);
-    }
-    req.app.get('access_secrets')[accessToken] = accessTokenSecret;
-    req.app.get('io').in(socketId).emit("authorized", accessToken);
-  });
+
+  try {
+    const authSecretKey = redisHelper.formatAuthSecret(token);
+    const authSocketKey = redisHelper.formatAuthSocket(token);
+    const redisClient = req.app.get('redis_client');
+    const tokenSecret = await redisHelper.getAsync(redisClient, authSecretKey);
+    const socketId = await redisHelper.getAsync(redisClient, authSocketKey);
+
+    req.app.get('oauth').getOAuthAccessToken(token, tokenSecret, verifier, (error, accessToken, accessTokenSecret) => {
+      if (error) {
+        req.app.get('io').in(socketId).emit('unauthorized', error);
+      }
+      redisClient.set(redisHelper.formatTokenSecret(accessToken), accessTokenSecret);
+      req.app.get('io').in(socketId).emit('authorized', accessToken);
+
+      redisHelper.delAsync(redisClient, [authSecretKey, authSocketKey]);
+    });
+  } catch (error) {
+    console.error('#### authorizeCallback error', error);
+  }
 };
 
-module.exports = { authorize, authorizeCallback }
+const logout = (req, res) => {
+  const { token } = req.query;
+  if (token) {
+    const redisClient = req.app.get('redis_client');
+    redisHelper.delAsync(redisClient, redisHelper.formatTokenSecret(token)).then(() => {
+      res.status(204).send();
+    }).catch(error => {
+      console.error('#### logout error', error);
+      res.status(401).send();
+    });
+  } else {
+    console.error('#### logout error: token not defined');
+    res.status(401).send();
+  }
+};
+
+module.exports = { authorize, authorizeCallback, logout };
