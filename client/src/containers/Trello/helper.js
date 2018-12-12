@@ -1,6 +1,9 @@
 import { put } from "redux-saga/effects";
-import { resetTrelloToken } from "containers/Authorization/actions";
 
+import get from "lodash/get";
+
+import { resetTrelloToken } from "containers/Authorization/actions";
+import { setMessage } from "containers/Home/actions";
 import { LOCAL_STORAGE_KEY } from "containers/Trello/constants";
 
 export const setToken = token => {
@@ -11,10 +14,12 @@ export const resetToken = () => {
   localStorage.removeItem(LOCAL_STORAGE_KEY);
 };
 
+export const getErrorMessage = error =>
+  get(error, ["data", "data"]) || "An error occurred";
+
 export function* errorHandler(error) {
-  console.log("errorHandler", error.data);
   if (error.status === 401) {
     yield put(resetTrelloToken());
   }
-  return [];
+  yield put(setMessage(getErrorMessage(error), "error"));
 }

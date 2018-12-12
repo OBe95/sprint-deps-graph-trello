@@ -3,21 +3,22 @@ import { put, takeLatest, all, select } from "redux-saga/effects";
 import axios from "axios";
 
 import {
+  setBoards,
+  setLabels,
+  setCards,
+  setUser
+} from "containers/Board/actions";
+import { setMessage } from "containers/Home/actions";
+import { resetTrelloToken } from "containers/Authorization/actions";
+import {
   FETCH_BOARDS,
   FETCH_LABELS,
   FETCH_CARDS,
   FETCH_USER,
   LOGOUT
 } from "containers/Board/constants";
-import {
-  setBoards,
-  setLabels,
-  setCards,
-  setUser
-} from "containers/Board/actions";
-import { resetTrelloToken } from "containers/Authorization/actions";
-import { makeSelectTrelloToken } from "containers/Authorization/selectors";
 import { errorHandler } from "containers/Trello/helper";
+import { makeSelectTrelloToken } from "containers/Authorization/selectors";
 
 // TODO: EXPORT URLS TO CONFIG FILE
 function* fetchBoards() {
@@ -37,7 +38,6 @@ function* fetchBoards() {
       yield* errorHandler(error);
     }
 
-    console.log("setting boards", boards);
     yield put(setBoards(boards));
   }
 }
@@ -64,7 +64,6 @@ function* fetchLabels(action) {
       yield* errorHandler(error);
     }
 
-    console.log("setting labels", labels);
     yield put(setLabels(labels));
   }
 }
@@ -95,7 +94,6 @@ function* fetchCards(action) {
       yield* errorHandler(error);
     }
 
-    console.log("setting cards", response.cards);
     yield put(setCards(response.cards));
   }
 }
@@ -120,8 +118,8 @@ function* fetchUser() {
       yield* errorHandler(error);
     }
 
-    console.log("setting user", user);
     yield put(setUser(user));
+    yield put(setMessage(`Welcome ${user.fullName}`, "success"));
   }
 }
 function* fetchUserSaga() {
@@ -144,7 +142,6 @@ function* logout() {
       yield* errorHandler(error);
     }
 
-    console.log("resetting trello token");
     yield put(resetTrelloToken());
   }
 }

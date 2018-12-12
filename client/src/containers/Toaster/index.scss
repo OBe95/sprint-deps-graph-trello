@@ -1,0 +1,15 @@
+@import 'styles/variables.scss';
+
+.toaster {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.success {
+  background-color: $success_bg !important;
+  color: $success_color !important;
+}
+.error {
+  background-color: $danger_bg !important;
+  color: $danger_color !important;
+}

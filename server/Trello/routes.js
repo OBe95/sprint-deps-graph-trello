@@ -5,7 +5,7 @@ const handleError = (method, error, res) => {
   console.error(`### ${method} error:`, error);
   res.status(401).send(error);
 }
-
+// TODO: check tokenSecret usage !!!
 const getUser = async (req, res) => {
   const { token } = req.query;
 

@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 
 import io from "socket.io-client";
 
-// TODO EXPORT CONSTS TO CONFIG FILE / PROCESS ENV
-const API_URL = "http://localhost:5000";
 const POPUP_NAME = "TRELLO_AUTH_POPUP";
 
-const AuthorizationPopup = ({ handleSuccess, handleClose }) => {
+const AuthorizationPopup = ({ handleClose, handleSuccess, handleError }) => {
   let popup = null;
   let socket = null;
   let authorized = false;
@@ -41,8 +39,9 @@ const AuthorizationPopup = ({ handleSuccess, handleClose }) => {
     const left = window.innerWidth / 2 - width / 2;
     const top = window.innerHeight / 2 - height / 2;
 
-    const url = `${API_URL}/authorize?socketId=${socket.id}`;
-
+    const url = `${process.env.REACT_APP_API_URL}/authorize?socketId=${
+      socket.id
+    }`;
     return window.open(
       url,
       POPUP_NAME,
@@ -52,7 +51,7 @@ const AuthorizationPopup = ({ handleSuccess, handleClose }) => {
   };
 
   useEffect(() => {
-    socket = io(API_URL);
+    socket = io(process.env.REACT_APP_API_URL);
 
     socket.on("connect", () => {
       popup = open();
@@ -61,14 +60,13 @@ const AuthorizationPopup = ({ handleSuccess, handleClose }) => {
     });
 
     socket.on("authorized", token => {
-      console.log("authorized", token);
       authorized = true;
       handleSuccess(token);
       close();
     });
 
     socket.on("unauthorized", error => {
-      console.log("unauthorized", error);
+      handleError(error);
       close();
     });
 
@@ -82,7 +80,8 @@ const AuthorizationPopup = ({ handleSuccess, handleClose }) => {
 
 AuthorizationPopup.propTypes = {
   handleClose: PropTypes.func.isRequired,
-  handleSuccess: PropTypes.func.isRequired
+  handleSuccess: PropTypes.func.isRequired,
+  handleError: PropTypes.func.isRequired
 };
 
 export default AuthorizationPopup;
