@@ -1,12 +1,12 @@
+import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
-import SnackbarContent from "@material-ui/core/SnackbarContent";
 import IconButton from "@material-ui/core/IconButton";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 
-import CloseIcon from "icons/Close";
 import "containers/Toaster/index.scss";
+import CloseIcon from "icons/Close";
 
 import { resetMessage } from "containers/Home/actions";
 

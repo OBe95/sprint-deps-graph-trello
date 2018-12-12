@@ -1,8 +1,8 @@
 import {
-  SET_TRELLO_TOKEN,
-  RESET_TRELLO_TOKEN
+  RESET_TRELLO_TOKEN,
+  SET_TRELLO_TOKEN
 } from "containers/Authorization/constants";
-import { setToken, resetToken } from "containers/Trello/helper";
+import { resetToken, setToken } from "containers/Trello/helper";
 
 const initialState = { trelloToken: null };
 

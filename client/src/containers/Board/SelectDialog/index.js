@@ -1,6 +1,6 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import React, { Fragment, useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -15,8 +15,8 @@ import "containers/Board/SelectDialog/index.scss";
 
 import {
   fetchBoards,
-  resetBoards,
   fetchLabels,
+  resetBoards,
   resetLabels
 } from "containers/Board/actions";
 import { makeSelectBoards, makeSelectLabels } from "containers/Board/selectors";

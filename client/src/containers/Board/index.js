@@ -1,23 +1,23 @@
-import React, { useState, Fragment } from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import React, { Fragment, useState } from "react";
+import { connect } from "react-redux";
 
-import SelectDialog from "containers/Board/SelectDialog";
-import {
-  makeSelectSelectedBoard,
-  makeSelectSelectedLabel,
-  makeSelectCards,
-  makeSelectUser
-} from "containers/Board/selectors";
-import {
-  setSelectedBoard,
-  setSelectedLabel,
-  fetchCards,
-  resetCards,
-  logout
-} from "containers/Board/actions";
 import DependencyGraph from "components/Board/DependencyGraph";
 import Header from "components/Board/Header";
+import {
+  fetchCards,
+  logout,
+  resetCards,
+  setSelectedBoard,
+  setSelectedLabel
+} from "containers/Board/actions";
+import SelectDialog from "containers/Board/SelectDialog";
+import {
+  makeSelectCards,
+  makeSelectSelectedBoard,
+  makeSelectSelectedLabel,
+  makeSelectUser
+} from "containers/Board/selectors";
 
 const Board = ({ dispatch, selectedBoard, selectedLabel, cards, user }) => {
   const [isSelectDialogOpen, setIsSelectDialogOpen] = useState(false);

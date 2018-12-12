@@ -1,15 +1,15 @@
-import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
+import React, { Fragment, useState } from "react";
 
 import {
-  DiagramComponent,
-  NodeConstraints,
-  DiagramConstraints,
-  PrintAndExport,
   ConnectorBridging,
-  UndoRedo,
   ConnectorEditing,
-  Inject
+  DiagramComponent,
+  DiagramConstraints,
+  Inject,
+  NodeConstraints,
+  PrintAndExport,
+  UndoRedo
 } from "@syncfusion/ej2-react-diagrams";
 import DependencyForm from "components/Board/DependencyGraph/DependencyForm";
 

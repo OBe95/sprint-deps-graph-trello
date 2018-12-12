@@ -1,12 +1,12 @@
-import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+import React, { Fragment } from "react";
 
 import Button from "@material-ui/core/Button";
 
 import isEmpty from "lodash/isEmpty";
 
-import LogoutIcon from "icons/Logout";
 import "components/Board/Header/index.scss";
+import LogoutIcon from "icons/Logout";
 
 const dot = color => ({
   width: "15px",

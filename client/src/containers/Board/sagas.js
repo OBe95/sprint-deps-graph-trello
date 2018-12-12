@@ -1,24 +1,24 @@
-import { put, takeLatest, all, select } from "redux-saga/effects";
+import { all, put, select, takeLatest } from "redux-saga/effects";
 
 import axios from "axios";
 
+import { resetTrelloToken } from "containers/Authorization/actions";
+import { makeSelectTrelloToken } from "containers/Authorization/selectors";
 import {
   setBoards,
-  setLabels,
   setCards,
+  setLabels,
   setUser
 } from "containers/Board/actions";
-import { setMessage } from "containers/Home/actions";
-import { resetTrelloToken } from "containers/Authorization/actions";
 import {
   FETCH_BOARDS,
-  FETCH_LABELS,
   FETCH_CARDS,
+  FETCH_LABELS,
   FETCH_USER,
   LOGOUT
 } from "containers/Board/constants";
+import { setMessage } from "containers/Home/actions";
 import { errorHandler } from "containers/Trello/helper";
-import { makeSelectTrelloToken } from "containers/Authorization/selectors";
 
 // TODO: EXPORT URLS TO CONFIG FILE
 function* fetchBoards() {

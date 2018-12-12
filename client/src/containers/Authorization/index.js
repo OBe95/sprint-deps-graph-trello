@@ -1,12 +1,12 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
 
 import AuthorizationPopup from "components/AuthorizationPopup";
-import TrelloIcon from "icons/Trello";
 import "containers/Authorization/index.scss";
+import TrelloIcon from "icons/Trello";
 
 import { setTrelloToken } from "containers/Authorization/actions";
 import { setMessage } from "containers/Home/actions";

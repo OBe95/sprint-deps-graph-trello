@@ -1,4 +1,4 @@
-import { SET_MESSAGE, RESET_MESSAGE } from "containers/Home/constants";
+import { RESET_MESSAGE, SET_MESSAGE } from "containers/Home/constants";
 
 const initialState = { messageContent: null, messageType: null };
 

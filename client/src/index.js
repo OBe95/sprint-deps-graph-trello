@@ -4,11 +4,11 @@ import { Provider } from "react-redux";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import createSagaMiddleware from "redux-saga";
 
-import "index.scss";
 import Home from "containers/Home";
-import * as serviceWorker from "serviceWorker";
 import { sprintDepsGraphReducer } from "containers/reducer";
 import sprintDepsGraphSagas from "containers/sagas";
+import "index.scss";
+import * as serviceWorker from "serviceWorker";
 
 const reducer = combineReducers(sprintDepsGraphReducer);
 const sagaMiddleware = createSagaMiddleware();

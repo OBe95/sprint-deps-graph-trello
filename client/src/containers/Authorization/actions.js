@@ -1,6 +1,6 @@
 import {
-  SET_TRELLO_TOKEN,
-  RESET_TRELLO_TOKEN
+  RESET_TRELLO_TOKEN,
+  SET_TRELLO_TOKEN
 } from "containers/Authorization/constants";
 
 export const setTrelloToken = token => ({

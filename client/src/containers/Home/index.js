@@ -1,18 +1,18 @@
+import PropTypes from "prop-types";
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
+import WaterMark from "components/WaterMark";
 import Authorization from "containers/Authorization";
 import Board from "containers/Board";
-import WaterMark from "components/WaterMark";
 import Toaster from "containers/Toaster";
 
 import { setTrelloToken } from "containers/Authorization/actions";
+import { makeSelectTrelloToken } from "containers/Authorization/selectors";
 import { fetchUser } from "containers/Board/actions";
 import { resetMessage } from "containers/Home/actions";
-import { LOCAL_STORAGE_KEY } from "containers/Trello/constants";
-import { makeSelectTrelloToken } from "containers/Authorization/selectors";
 import { makeSelectMessageAndType } from "containers/Home/selectors";
+import { LOCAL_STORAGE_KEY } from "containers/Trello/constants";
 
 const Home = ({ dispatch, trelloToken, messageAndType }) => {
   useEffect(

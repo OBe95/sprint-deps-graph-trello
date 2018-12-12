@@ -1,13 +1,13 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 
 import Button from "@material-ui/core/Button";
 
 import Select from "react-select";
 
+import "components/Board/DependencyGraph/DependencyForm/index.scss";
 import { colourStylesMulti } from "components/Board/helpers";
 import FitToPageIcon from "icons/FitToPage";
-import "components/Board/DependencyGraph/DependencyForm/index.scss";
 
 const formatCards = cards =>
   cards
