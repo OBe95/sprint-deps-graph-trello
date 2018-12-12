@@ -116,10 +116,10 @@ function* fetchUser() {
 
     if (error) {
       yield* errorHandler(error);
+    } else {
+      yield put(setMessage(`Welcome ${user.fullName}`, "success"));
     }
-
     yield put(setUser(user));
-    yield put(setMessage(`Welcome ${user.fullName}`, "success"));
   }
 }
 function* fetchUserSaga() {

@@ -36,8 +36,9 @@ const authorizeCallback = async (req) => {
       if (error) {
         req.app.get('io').in(socketId).emit('unauthorized', error);
       }
-      redisClient.set(redisHelper.formatTokenSecret(accessToken), accessTokenSecret);
-      req.app.get('io').in(socketId).emit('authorized', accessToken);
+      redisClient.set(redisHelper.formatAccessToken(socketId), accessToken);
+      redisClient.set(redisHelper.formatAccessTokenSecret(socketId), accessTokenSecret);
+      req.app.get('io').in(socketId).emit('authorized', socketId);
 
       redisHelper.delAsync(redisClient, [authSecretKey, authSocketKey]);
     });
@@ -50,7 +51,7 @@ const logout = (req, res) => {
   const { token } = req.query;
   if (token) {
     const redisClient = req.app.get('redis_client');
-    redisHelper.delAsync(redisClient, redisHelper.formatTokenSecret(token)).then(() => {
+    redisHelper.delAsync(redisClient, [redisHelper.formatAccessToken(token), redisHelper.formatAccessTokenSecret(token)]).then(() => {
       res.status(204).send();
     }).catch(error => {
       console.error('#### logout error', error);

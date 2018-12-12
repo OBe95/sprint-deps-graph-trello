@@ -5,7 +5,6 @@ const handleError = (method, error, res) => {
   console.error(`### ${method} error:`, error);
   res.status(401).send(error);
 }
-// TODO: check tokenSecret usage !!!
 const getUser = async (req, res) => {
   const { token } = req.query;
 
@@ -16,9 +15,10 @@ const getUser = async (req, res) => {
     }
 
     const redisClient = req.app.get('redis_client');
-    const tokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatTokenSecret(token));
+    const accessToken = await redisHelper.getAsync(redisClient, redisHelper.formatAccessToken(token));
+    const accessTokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatAccessTokenSecret(token));
 
-    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.user, 'GET', token, tokenSecret, (error, user) => {
+    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.user, 'GET', accessToken, accessTokenSecret, (error, user) => {
       if (error) {
         handleError("getUser", error, res);
       } else {
@@ -40,9 +40,10 @@ const getBoards = async (req, res) => {
     }
 
     const redisClient = req.app.get('redis_client');
-    const tokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatTokenSecret(token));
+    const accessToken = await redisHelper.getAsync(redisClient, redisHelper.formatAccessToken(token));
+    const accessTokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatAccessTokenSecret(token));
 
-    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.boards, 'GET', token, tokenSecret, (error, boards) => {
+    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.boards, 'GET', accessToken, accessTokenSecret, (error, boards) => {
       if (error) {
         handleError("getBoards", error, res);
       } else {
@@ -64,9 +65,10 @@ const getLabels = async (req, res) => {
     }
 
     const redisClient = req.app.get('redis_client');
-    const tokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatTokenSecret(token));
+    const accessToken = await redisHelper.getAsync(redisClient, redisHelper.formatAccessToken(token));
+    const accessTokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatAccessTokenSecret(token));
 
-    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.labels(boardId), 'GET', token, tokenSecret, (error, labels) => {
+    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.labels(boardId), 'GET', accessToken, accessTokenSecret, (error, labels) => {
       if (error) {
         handleError("getLabels", error, res);
       } else {
@@ -87,9 +89,10 @@ const getCards = async (req, res) => {
     }
 
     const redisClient = req.app.get('redis_client');
-    const tokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatTokenSecret(token));
+    const accessToken = await redisHelper.getAsync(redisClient, redisHelper.formatAccessToken(token));
+    const accessTokenSecret = await redisHelper.getAsync(redisClient, redisHelper.formatAccessTokenSecret(token));
 
-    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.cards(boardId, labelName), 'GET', token, tokenSecret, (error, cards) => {
+    req.app.get('oauth').getProtectedResource(TRELLO_CONFIG.urls.cards(boardId, labelName), 'GET', accessToken, accessTokenSecret, (error, cards) => {
       if (error) {
         handleError("getCards", error, res);
       } else {

@@ -26,12 +26,14 @@ const formatAuthSecret = token => `auth-${token}`;
 
 const formatAuthSocket = token => `socket-${token}`;
 
-const formatTokenSecret = token => `token-${token}`;
+const formatAccessToken = clientId => `access-token-${clientId}`;
+const formatAccessTokenSecret = clientId => `access-token-secret-${clientId}`;
 
 module.exports = {
   getAsync,
   delAsync,
   formatAuthSecret,
   formatAuthSocket,
-  formatTokenSecret,
+  formatAccessToken,
+  formatAccessTokenSecret
 };
