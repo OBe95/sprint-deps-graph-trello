@@ -18,16 +18,16 @@ import {
   LOGOUT
 } from "containers/Board/constants";
 import { setMessage } from "containers/Home/actions";
+import { URLS } from "containers/Trello/constants";
 import { errorHandler } from "containers/Trello/helper";
 
-// TODO: EXPORT URLS TO CONFIG FILE
 function* fetchBoards() {
   const token = yield select(makeSelectTrelloToken());
 
   if (token) {
     let error = null;
     const boards = yield axios
-      .get(`http://localhost:5000/boards?token=${token}`)
+      .get(URLS.boards(token))
       .then(response => response.data)
       .catch(_error => {
         error = _error.response;
@@ -53,7 +53,7 @@ function* fetchLabels(action) {
 
     let error = null;
     const labels = yield axios
-      .get(`http://localhost:5000/labels?token=${token}&boardId=${boardId}`)
+      .get(URLS.labels(token, boardId))
       .then(response => response.data)
       .catch(_error => {
         error = _error.response;
@@ -78,13 +78,9 @@ function* fetchCards(action) {
     const { labelName, boardId } = action;
 
     let error = null;
-    const response = yield axios
-      .get(
-        `http://localhost:5000/cards?token=${token}&labelName=${encodeURIComponent(
-          labelName
-        )}&boardId=${encodeURIComponent(boardId)}`
-      )
-      .then(_response => _response.data)
+    const cards = yield axios
+      .get(URLS.cards(token, boardId, labelName))
+      .then(_response => _response.data.cards)
       .catch(_error => {
         error = _error.response;
         return [];
@@ -94,7 +90,7 @@ function* fetchCards(action) {
       yield* errorHandler(error);
     }
 
-    yield put(setCards(response.cards));
+    yield put(setCards(cards));
   }
 }
 function* fetchCardsSaga() {
@@ -107,7 +103,7 @@ function* fetchUser() {
   if (token) {
     let error = null;
     const user = yield axios
-      .get(`http://localhost:5000/user?token=${token}`)
+      .get(URLS.user(token))
       .then(response => response.data)
       .catch(_error => {
         error = _error.response;
@@ -131,12 +127,10 @@ function* logout() {
 
   if (token) {
     let error = null;
-    yield axios
-      .get(`http://localhost:5000/logout?token=${token}`)
-      .catch(_error => {
-        error = _error.response;
-        return null;
-      });
+    yield axios.get(URLS.logout(token)).catch(_error => {
+      error = _error.response;
+      return null;
+    });
 
     if (error) {
       yield* errorHandler(error);

@@ -18,6 +18,7 @@ import {
   makeSelectSelectedLabel,
   makeSelectUser
 } from "containers/Board/selectors";
+import { setMessage } from "containers/Home/actions";
 
 const Board = ({ dispatch, selectedBoard, selectedLabel, cards, user }) => {
   const [isSelectDialogOpen, setIsSelectDialogOpen] = useState(false);
@@ -47,7 +48,14 @@ const Board = ({ dispatch, selectedBoard, selectedLabel, cards, user }) => {
         handleCloseSelectDialog={() => setIsSelectDialogOpen(false)}
       />
 
-      {cards.length > 0 && <DependencyGraph cards={cards} />}
+      {cards.length > 0 && (
+        <DependencyGraph
+          cards={cards}
+          displayToaster={(message, type) =>
+            dispatch(setMessage(message, type))
+          }
+        />
+      )}
     </Fragment>
   );
 };

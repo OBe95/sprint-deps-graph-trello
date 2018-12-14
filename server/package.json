@@ -4,7 +4,8 @@
   "description": "Api for Sprint Dependencies Graph ~ Trello",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server"
+    "start": "node server",
+    "start:dev": "nodemon server"
   },
   "author": "",
   "license": "ISC",

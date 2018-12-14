@@ -30,7 +30,6 @@ app.use(cors({
   origin: process.env.CLIENT_URL,
 }));
 
-// TODO: USE REDIS TO PERSIST SECRETS
 const redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
 app.set('redis_client', redisClient);
 redisClient.on('connect', () => {

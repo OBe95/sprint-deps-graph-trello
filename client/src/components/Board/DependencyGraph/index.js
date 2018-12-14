@@ -85,7 +85,7 @@ const getConnectors = diagramInstance =>
 const getNodes = (diagramInstance, cards) =>
   diagramInstance ? diagramInstance.nodes : formatCards(cards);
 
-const DependencyGraph = ({ cards }) => {
+const DependencyGraph = ({ cards, displayToaster }) => {
   const [diagramInstance, setDiagramInstance] = useState(null);
   const [selectedTargets, setSelectedTargets] = useState([]);
   const [selectedSources, setSelectedSources] = useState([]);
@@ -98,9 +98,9 @@ const DependencyGraph = ({ cards }) => {
       );
 
       if (existingConnection) {
-        // TODO display a toaster
-        console.log(
-          `A connection from ${sourceId} to ${targetId} already exists`
+        displayToaster(
+          `A connection from #${sourceId} to #${targetId} already exists`,
+          "error"
         );
         return;
       }
@@ -204,7 +204,8 @@ DependencyGraph.propTypes = {
       name: PropTypes.string,
       idShort: PropTypes.number
     })
-  )
+  ),
+  displayToaster: PropTypes.func.isRequired
 };
 
 export default DependencyGraph;
